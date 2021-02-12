@@ -1,0 +1,45 @@
+.container {
+    margin-top: 80px;
+}
+
+.sub-title {
+    color: #495057;
+    font-size: xx-large;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.sub-desc {
+    color: #6c757d;
+    font-size: large;
+    text-align: center;
+    margin-bottom: 60px;
+}
+#downurl{
+    margin-bottom: 20px;
+}
+
+.down-tab{
+    margin: 10px 0;
+    font-weight: bold;
+    color: #495057;
+}
+
+.progress{
+    margin: 12px 0;
+}
+
+.down-info{
+    text-align: center;
+}
+
+.down-file{
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+@media screen and (max-width:576px) {
+    #down-btn {
+        width: 100%;
+    }
+}

@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+  <meta name="generator" content="Hugo 0.80.0">
+  <title>文件下载列表</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+
+
+
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
+
+
+  <!-- Custom styles for this template -->
+  <link href="/static/css/index.css" rel="stylesheet">
+</head>
+
+<body>
+  <link rel="import" href="/static/parts/nav.html">
+  <main role="main" class="container">
+    <!----------------------------- 菜单栏--开始----------------------------------------->
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+      <a class="navbar-brand" href="/">离线下载</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+        aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item ">
+            <a class="nav-link" href="/">添加 <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="/downloading">下载中</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/downComplete">已完成</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <!----------------------------- 菜单栏--结束----------------------------------------->
+    <div class="down-tab">正在下载：<span id="down-count" class="badge bg-primary rounded-pill">0</span></div>
+    <div id="down-list" class="list-group down-file-group"> </div>
+
+    <!----------------------------- 页脚--开始----------------------------------------->
+    <footer class="my-5 pt-5 text-muted text-center text-small">
+      <p class="mb-1">© 2017-2021 Company Name</p>
+    </footer>
+    <!----------------------------- 页脚--结束----------------------------------------->
+  </main><!-- /.container -->
+
+  <script src="/static/js/jquery-3.5.1.min.js"></script>
+  <script src="/static/js/jquery.tmpl.min.js"></script>
+  <script>
+    window.jQuery || document.write('<script src="/static/js/jquery.slim.min.js"><\/script>')
+  </script>
+  <script src="/static/js/bootstrap.bundle.min.js"></script>
+  <script id="down-list-item" type="text/x-jquery-tmpl">
+    <a href="#" class="list-group-item list-group-item-action down-file " aria-current="true">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1"><img width="32px" src="/static/img/file-zip.svg" alt="file-zip">${file_name}</h5>
+        <button class=" btn btn-secondary">Stop</button>
+      </div>
+      <div class="progress">
+        <div class="progress-bar" role="progressbar" style="width: ${progress}%;" aria-valuenow="${progress}" aria-valuemin="0"
+          aria-valuemax="100">${progress}%</div>
+      </div>
+      <div class="row down-info">
+        <div class="col">${file_size}</div>
+        <div class="col">00:02:35</div>
+        <div class="col">10MB/s</div>
+      </div>
+    </a>
+ 
+</script>
+  <script>
+    function refresh() {
+      $.get("/getDownList", function (response, status) {
+        data = JSON.parse(response);
+        if (data.code == 200) {
+          $("#down-count").html(data.down_list.length)
+          $("#down-list").html("");
+          $("#down-list-item").tmpl(data.down_list).appendTo("#down-list");
+        }
+      });
+    }
+    refresh()
+    setInterval(refresh,2000);
+  </script>
+
+</body>
+
+</html>
